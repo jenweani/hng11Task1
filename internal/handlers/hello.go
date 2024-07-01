@@ -25,14 +25,6 @@ func HelloHandler(c *gin.Context){
 		return
 	}
 
-	// locDetails, err := services.GetLocationByIP(clientIP)
-	// if err != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{
-	// 		"message": "Could not get your location from IP",
-	// 	})
-	// 	return
-	// }
-
 	temp, err := services.GetTempByLoc(clientIP)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
