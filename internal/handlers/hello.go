@@ -25,15 +25,15 @@ func HelloHandler(c *gin.Context){
 		return
 	}
 
-	locDetails, err := services.GetLocationByIP(clientIP)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Could not get your location from IP",
-		})
-		return
-	}
+	// locDetails, err := services.GetLocationByIP(clientIP)
+	// if err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"message": "Could not get your location from IP",
+	// 	})
+	// 	return
+	// }
 
-	temp, err := services.GetTempByLoc(locDetails.Latitude, locDetails.Longitude)
+	temp, err := services.GetTempByLoc(clientIP)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get your Temperature",
@@ -43,7 +43,7 @@ func HelloHandler(c *gin.Context){
 
 	c.JSON(200, gin.H{
 		"client_ip": clientIP,
-		"location": locDetails.City,
-		"greeting": fmt.Sprintf("Hello, %s! the temperature is %s degrees Celcius in %s", name, temp, locDetails.City),
+		"location": temp["location"]["region"],
+		"greeting": fmt.Sprintf("Hello, %s! the temperature is %.2f degrees Celcius in %s", name, temp["current"]["temp_c"], temp["location"]["region"]),
 	})
 }
